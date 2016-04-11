@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -63,8 +64,19 @@ public class ForecastFragment extends Fragment {
 
         mForecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.list_item_forecast_textview, list);
         ListView mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        mListView.setAdapter(mForecastAdapter);
 
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String forecast = mForecastAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, forecast);
+                startActivity(intent);
+            }
+        });
+
+        mListView.setAdapter(mForecastAdapter);
         return rootView;
     }
 
